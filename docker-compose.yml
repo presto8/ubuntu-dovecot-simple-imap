@@ -1,0 +1,7 @@
+services:
+  simple-imap-server:
+    build: .
+    volumes:
+      - /tmp/Maildir:/Maildir
+    ports:
+      - 143:143
