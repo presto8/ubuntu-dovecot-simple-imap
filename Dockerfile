@@ -1,10 +1,9 @@
 FROM ubuntu
-MAINTAINER Derk Muenchhausen <derk@muenchhausen.de>
+MAINTAINER Preston Hunt <me@prestonhunt.com>
 
 RUN apt-get update && apt-get install -y \
     dovecot-core \
     dovecot-imapd \
-    nfs-common \
     inotify-tools
 
 RUN echo "mail_location = maildir:~/Maildir" >> /etc/dovecot/conf.d/10-mail.conf && \
@@ -16,15 +15,9 @@ RUN echo "mail_location = maildir:~/Maildir" >> /etc/dovecot/conf.d/10-mail.conf
 
 RUN useradd -m mailarchive -p mailarchive -s /bin/false && \
 	echo "mailarchive:mailarchive"|chpasswd && \
-	mkdir /home/mailarchive/Maildir && \
-	chown mailarchive:mailarchive /home/mailarchive/Maildir/
+	mkdir /Maildir && \
+	chown mailarchive:mailarchive /Maildir
 
-ADD dovecotnfs.sh /usr/local/bin/dovecotnfs
-
-ENV NFS_REMOTETARGET ""
-
-ENTRYPOINT ["dovecotnfs"]
-
-CMD ["--help"]
+CMD ["dovecot", "-F"]
 
 EXPOSE 143
