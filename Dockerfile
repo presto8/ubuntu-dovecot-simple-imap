@@ -11,13 +11,13 @@ RUN echo "mail_location = maildir:~/Maildir" >> /etc/dovecot/conf.d/10-mail.conf
 	echo "log_path = /dev/stderr" >> /etc/dovecot/conf.d/10-logging.conf && \
 	echo "auth_verbose = yes" >> /etc/dovecot/conf.d/10-logging.conf && \
 	echo "disable_plaintext_auth = no" >> /etc/dovecot/conf.d/10-auth.conf && \
-	echo "auth_mechanisms = plain" >> /etc/dovecot/conf.d/10-auth.conf
+	echo "auth_mechanisms = plain login" >> /etc/dovecot/conf.d/10-auth.conf
 
 RUN useradd -m mailarchive -p mailarchive -s /bin/false && \
 	echo "mailarchive:mailarchive"|chpasswd && \
-	mkdir /Maildir && \
-	chown mailarchive:mailarchive /Maildir
-
-CMD ["dovecot", "-F"]
+	mkdir /home/mailarchive/Maildir && \
+	chown mailarchive:mailarchive /home/mailarchive/Maildir
 
 EXPOSE 143
+
+CMD ["dovecot", "-F"]
