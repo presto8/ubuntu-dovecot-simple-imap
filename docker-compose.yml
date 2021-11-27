@@ -2,6 +2,7 @@ services:
   simple-imap-server:
     build: .
     volumes:
-      - /tmp/Maildir:/Maildir
+      - /tmp/Maildir:/home/mailarchive/Maildir
     ports:
       - 143:143
+    user: "${UID}:${GID}"
